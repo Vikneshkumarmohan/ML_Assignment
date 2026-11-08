@@ -1,6 +1,8 @@
 # ML_Assignment
 Machine Learning Assignment
 
+Hosted Streamlit URL: https://mlassignment-2026aj05896-vikneshkumarmohan.streamlit.app/
+
 
 # Mushroom Classification Using Machine Learning
 
