@@ -307,6 +307,17 @@ div[data-testid="stMetricDelta"] * {
     color: #FF8C00 !important;
 }
 
+/* Force the academic safety warning text to orange in both themes. */
+div[data-testid="stAlert"],
+div[data-testid="stAlert"] *,
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] span,
+div[data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+div[data-testid="stAlert"] [data-testid="stMarkdownContainer"] * {
+    color: #FF8C00 !important;
+    -webkit-text-fill-color: #FF8C00 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
