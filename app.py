@@ -31,35 +31,137 @@ st.set_page_config(
 
 
 # =====================================================
-# 2. CUSTOM STYLING - DARK / LIGHT MODE
+# 2. CUSTOM STYLING - STREAMLIT THEME AWARE
 # =====================================================
 
 st.markdown("""
 <style>
-
-/* =========================================
-   THEME VARIABLES - LIGHT MODE DEFAULT
-========================================= */
-
+/* LIGHT MODE: high-contrast dark text on light surfaces */
 :root {
     --app-bg: #f5f7ff;
-    --app-text: #243b55;
-    --heading-color: #243b55;
+    --app-text: #172b4d;
+    --heading-color: #142b45;
     --card-bg: #ffffff;
     --metric-bg: #e8f7f2;
-    --metric-text: #087f5b;
-    --border-color: #cceee2;
-    --muted-text: #64748b;
-    --table-bg: #ffffff;
+    --metric-text: #075c45;
+    --border-color: #b7dfd2;
+    --muted-text: #425466;
     color-scheme: light;
 }
 
-/* =========================================
-   AUTOMATIC DARK MODE DETECTION
-========================================= */
+.stApp { background: var(--app-bg) !important; color: var(--app-text) !important; }
+.stApp p, .stApp li, .stApp label, .stApp small,
+.stApp [data-testid="stMarkdownContainer"],
+.stApp [data-testid="stMarkdownContainer"] *,
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stCaptionContainer"] *,
+.stApp [data-testid="stWidgetLabel"],
+.stApp [data-testid="stWidgetLabel"] * {
+    color: var(--app-text) !important;
+}
+.stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+    color: var(--heading-color) !important;
+}
 
+/* Keep the colorful title */
+.main-title {
+    font-size: 38px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.3;
+}
+.sub-title { color: var(--muted-text) !important; font-size: 16px; font-weight: 500; }
+
+/* Student card and sidebar intentionally remain dark with white text */
+.student-card {
+    background: linear-gradient(135deg, #243b55, #141e30);
+    padding: 15px 20px; border-radius: 14px; text-align: right;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+.student-card p, .student-card span, .student-card .student-name {
+    color: #ffffff !important; margin: 4px 0;
+}
+.student-card p { font-size: 14px; }
+.student-card .student-name { font-size: 17px; font-weight: 700; }
+
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #162b4d, #285b70) !important;
+}
+section[data-testid="stSidebar"] * { color: #ffffff !important; }
+
+/* Metric cards */
+div[data-testid="stMetric"] {
+    background: var(--metric-bg) !important;
+    padding: 20px; border-radius: 15px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+div[data-testid="stMetricLabel"], div[data-testid="stMetricLabel"] *,
+div[data-testid="stMetricValue"], div[data-testid="stMetricValue"] *,
+div[data-testid="stMetricDelta"], div[data-testid="stMetricDelta"] * {
+    color: var(--app-text) !important; font-weight: 700;
+}
+div[data-testid="stMetricValue"] *, div[data-testid="stMetricValue"] {
+    color: var(--metric-text) !important;
+}
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+    background: linear-gradient(90deg, #11998e, #38ef7d) !important;
+    color: #ffffff !important; border: none; border-radius: 10px;
+    font-weight: 700; padding: 10px 20px; transition: all 0.2s ease;
+}
+.stButton > button *, .stDownloadButton > button * { color: #ffffff !important; }
+.stButton > button:hover, .stDownloadButton > button:hover {
+    background: linear-gradient(90deg, #087f5b, #11998e) !important;
+    transform: translateY(-2px);
+}
+
+/* Uploader, dropdowns and input controls */
+div[data-testid="stFileUploader"] {
+    background: var(--card-bg) !important; border: 2px dashed #38a890;
+    border-radius: 15px; padding: 15px;
+}
+div[data-testid="stFileUploader"] *,
+div[data-testid="stFileUploader"] button * {
+    color: var(--app-text) !important;
+}
+div[data-testid="stFileUploader"] button {
+    background: var(--card-bg) !important; border: 1px solid #38a890 !important;
+}
+div[data-baseweb="select"] > div,
+div[data-baseweb="input"] > div,
+div[data-baseweb="textarea"] > div {
+    background: var(--card-bg) !important;
+}
+div[data-baseweb="select"] *, div[data-baseweb="popover"] *,
+.stTextInput input, .stNumberInput input, .stTextArea textarea {
+    color: var(--app-text) !important;
+}
+.stTextInput input, .stNumberInput input, .stTextArea textarea {
+    background: var(--card-bg) !important;
+}
+
+/* Expanders, alerts and separators */
+div[data-testid="stExpander"] {
+    background: var(--card-bg) !important; border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+div[data-testid="stExpander"] summary,
+div[data-testid="stExpander"] summary * { color: var(--app-text) !important; }
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+div[data-testid="stAlert"] [data-testid="stMarkdownContainer"] * {
+    color: var(--app-text) !important;
+}
+div[data-testid="stDataFrame"] { border-radius: 12px; overflow: hidden; }
+hr { border-color: var(--border-color) !important; }
+
+/* DARK MODE: restore the previous dark appearance without changing it */
 @media (prefers-color-scheme: dark) {
-
     :root {
         --app-bg: #101827;
         --app-text: #e5e7eb;
@@ -69,200 +171,140 @@ st.markdown("""
         --metric-text: #6ee7b7;
         --border-color: #3b5261;
         --muted-text: #cbd5e1;
-        --table-bg: #1e293b;
         color-scheme: dark;
     }
-
+    .stApp { background: var(--app-bg) !important; color: var(--app-text) !important; }
+    .stApp p, .stApp li, .stApp label, .stApp small,
+    .stApp [data-testid="stMarkdownContainer"],
+    .stApp [data-testid="stMarkdownContainer"] *,
+    .stApp [data-testid="stCaptionContainer"],
+    .stApp [data-testid="stCaptionContainer"] *,
+    .stApp [data-testid="stWidgetLabel"],
+    .stApp [data-testid="stWidgetLabel"] * {
+        color: var(--app-text) !important;
+    }
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+        color: var(--heading-color) !important;
+    }
+    div[data-testid="stMetric"] { background: var(--metric-bg) !important; }
+    div[data-testid="stMetricLabel"], div[data-testid="stMetricLabel"] *,
+    div[data-testid="stMetricDelta"], div[data-testid="stMetricDelta"] * {
+        color: var(--app-text) !important;
+    }
+    div[data-testid="stMetricValue"], div[data-testid="stMetricValue"] * {
+        color: var(--metric-text) !important;
+    }
+    div[data-testid="stFileUploader"],
+    div[data-testid="stExpander"],
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="textarea"] > div {
+        background: var(--card-bg) !important;
+    }
+    div[data-testid="stFileUploader"] *,
+    div[data-testid="stFileUploader"] button *,
+    div[data-baseweb="select"] *, div[data-baseweb="popover"] *,
+    .stTextInput input, .stNumberInput input, .stTextArea textarea,
+    div[data-testid="stExpander"] summary,
+    div[data-testid="stExpander"] summary * {
+        color: var(--app-text) !important;
+    }
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background: var(--card-bg) !important;
+    }
+    div[data-testid="stAlert"] p,
+    div[data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+    div[data-testid="stAlert"] [data-testid="stMarkdownContainer"] * {
+        color: var(--app-text) !important;
+    }
+    hr { border-color: var(--border-color) !important; }
 }
 
-/* =========================================
-   MAIN APPLICATION
-========================================= */
 
-.stApp {
-    background: var(--app-bg);
-    color: var(--app-text);
+/* =====================================================
+   FINAL OVERRIDE: ORANGE TYPOGRAPHY IN BOTH THEMES
+   Background colors above are intentionally untouched.
+===================================================== */
+.stApp,
+.stApp *,
+.stApp *::before,
+.stApp *::after,
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] *,
+div[data-testid="stMetric"] *,
+div[data-testid="stFileUploader"] *,
+div[data-testid="stExpander"] *,
+div[data-testid="stAlert"] *,
+div[data-testid="stDataFrame"] *,
+div[data-testid="stTable"] *,
+div[data-baseweb="select"] *,
+div[data-baseweb="popover"] *,
+.stButton button,
+.stButton button *,
+.stDownloadButton button,
+.stDownloadButton button *,
+input,
+textarea,
+label,
+small,
+p,
+span,
+li,
+h1, h2, h3, h4, h5, h6 {
+    color: #FF8C00 !important;
 }
 
-/* General text */
-
-.stApp p,
-.stApp label,
-.stApp li,
-.stApp .stMarkdown {
-    color: var(--app-text);
-}
-
-/* Headings */
-
-.stApp h1,
-.stApp h2,
-.stApp h3,
-.stApp h4 {
-    color: var(--heading-color) !important;
-}
-
-/* =========================================
-   MAIN TITLE
-========================================= */
-
+/* Keep the title solid orange instead of gradient-clipped text. */
 .main-title {
-    font-size: 38px;
-    font-weight: 800;
-    background: linear-gradient(90deg, #11998e, #38ef7d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.3;
+    color: #FF8C00 !important;
+    background: none !important;
+    -webkit-text-fill-color: #FF8C00 !important;
 }
-
 .sub-title {
-    color: var(--muted-text) !important;
-    font-size: 16px;
-    font-weight: 500;
+    color: #FF8C00 !important;
 }
 
-/* =========================================
-   STUDENT INFORMATION CARD
-========================================= */
-
-.student-card {
-    background: linear-gradient(135deg, #243b55, #141e30);
-    padding: 15px 20px;
-    border-radius: 14px;
-    text-align: right;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+/* Ensure input text and placeholder text are orange. */
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+div[data-baseweb="input"] input,
+div[data-baseweb="textarea"] textarea {
+    color: #FF8C00 !important;
+    -webkit-text-fill-color: #FF8C00 !important;
+}
+.stTextInput input::placeholder,
+.stNumberInput input::placeholder,
+.stTextArea textarea::placeholder {
+    color: #FF8C00 !important;
+    opacity: 0.8 !important;
 }
 
-.student-card p {
-    color: #ffffff !important;
-    margin: 4px 0;
-    font-size: 14px;
-}
-
-.student-card .student-name {
-    font-size: 17px;
-    font-weight: 700;
-}
-
-/* =========================================
-   METRIC CARDS
-========================================= */
-
-div[data-testid="stMetric"] {
-    background: var(--metric-bg);
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-}
-
-div[data-testid="stMetricLabel"],
-div[data-testid="stMetricLabel"] p {
-    color: var(--app-text) !important;
-}
-
-div[data-testid="stMetricValue"],
-div[data-testid="stMetricValue"] div {
-    color: var(--metric-text) !important;
-    font-weight: 800;
-}
-
-/* =========================================
-   SIDEBAR
-========================================= */
-
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #162b4d, #285b70);
-}
-
+/* Student card and sidebar typography also use orange. */
+.student-card,
+.student-card *,
 section[data-testid="stSidebar"] * {
-    color: #ffffff !important;
+    color: #FF8C00 !important;
 }
 
-/* =========================================
-   BUTTONS
-========================================= */
+/* Metric labels, values and deltas. */
+div[data-testid="stMetricLabel"] *,
+div[data-testid="stMetricValue"] *,
+div[data-testid="stMetricDelta"] * {
+    color: #FF8C00 !important;
+}
 
+/* Keep button backgrounds as originally styled; only text changes. */
 .stButton > button,
-.stDownloadButton > button {
-    background: linear-gradient(90deg, #11998e, #38ef7d);
-    color: #ffffff !important;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    padding: 10px 20px;
-    transition: all 0.2s ease;
+.stDownloadButton > button,
+.stButton > button *,
+.stDownloadButton > button * {
+    color: #FF8C00 !important;
 }
 
-.stButton > button:hover,
-.stDownloadButton > button:hover {
-    background: linear-gradient(90deg, #087f5b, #11998e);
-    color: #ffffff !important;
-    transform: translateY(-2px);
-}
-
-/* =========================================
-   FILE UPLOADER
-========================================= */
-
-div[data-testid="stFileUploader"] {
-    background: var(--card-bg);
-    border: 2px dashed #38a890;
-    border-radius: 15px;
-    padding: 15px;
-}
-
-div[data-testid="stFileUploader"] * {
-    color: var(--app-text);
-}
-
-/* =========================================
-   DATA TABLES
-========================================= */
-
-div[data-testid="stDataFrame"] {
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-/* =========================================
-   EXPANDERS
-========================================= */
-
-div[data-testid="stExpander"] {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-}
-
-div[data-testid="stExpander"] summary {
-    color: var(--app-text);
-}
-
-/* =========================================
-   INPUT FIELDS
-========================================= */
-
-.stSelectbox,
-.stTextInput,
-.stNumberInput {
-    color: var(--app-text);
-}
-
-/* =========================================
-   DIVIDERS
-========================================= */
-
-hr {
-    border-top: 2px solid var(--border-color);
-}
-
-/* =========================================
-   ALERTS
-========================================= */
-
-div[data-testid="stAlert"] {
-    border-radius: 12px;
+/* SVG icons inherit the same orange foreground where supported. */
+.stApp svg {
+    color: #FF8C00 !important;
 }
 
 </style>
